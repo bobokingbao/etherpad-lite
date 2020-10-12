@@ -232,18 +232,6 @@ describe("the test helper", function(){
         });
         expect(called).to.be(true);
       });
-
-      xit("throws if you don't listen for fails", function(done){
-        var onerror = window.onerror;
-        window.onerror = function(){
-          window.onerror = onerror;
-          done();
-        }
-
-        helper.waitFor(function(){
-          return false;
-        },100);
-      });
     });
   });
 
