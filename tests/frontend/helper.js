@@ -221,33 +221,12 @@ var helper = {};
    * Same as `waitFor` but using Promises
    *
    */
-  helper.waitForPromise = function(conditionFunc, _timeoutTime, _intervalTime){
-    var timeoutTime = _timeoutTime || 1900;
-    var intervalTime = _intervalTime || 10;
-
-    var promise = new Promise((resolve, reject) => {
-      var intervalCheck = setInterval(function(){
-        var passed = false;
-
-        passed = conditionFunc();
-
-        if(passed){
-          clearInterval(intervalCheck);
-          clearTimeout(timeout);
-
-          resolve();
-        }
-      }, intervalTime);
-
-      var timeout = setTimeout(function(){
-        clearInterval(intervalCheck);
-        var error = new Error("wait for condition never became true " + conditionFunc.toString());
-        reject(error);
-
-      }, timeoutTime);
-    })
-    return promise;
-  }
+  helper.waitForPromise = async function(...args) {
+    // Note: waitFor() has a strange API: On timeout it rejects, but it also throws an uncatchable
+    // exception unless .fail() has been called. That uncatchable exception is disabled here by
+    // passing a no-op function to .fail().
+    return await this.waitFor(...args).fail(() => {});
+  };
 
   helper.selectLines = function($startLine, $endLine, startOffset, endOffset){
     // if no offset is provided, use beginning of start line and end of end line
