@@ -211,7 +211,7 @@ describe("the test helper", function(){
       });
     });
 
-    describe("returns a deferred object", function(){
+    describe("returns a Promise", function(){
       it("it calls then after success", async function(){
         let called = false;
         await helper.waitForPromise(function(){
